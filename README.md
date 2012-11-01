@@ -1,2 +1,2 @@
-fetch
+My first git repository.
 =====
