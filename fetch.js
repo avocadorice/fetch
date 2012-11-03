@@ -21,6 +21,7 @@ var v_mochi = {x:130, y:130}, v_barney = {x:100, y:100};
 bezierX = 150;  
 bezierY = 200;
 var ellenThrowing;
+// this line was added on github web interface.
 
 function onLoad() {
     //sound
