@@ -1,13 +1,13 @@
 var playgroundImage = new Image();
-playgroundImage.src = "playground.png";
+playgroundImage.src = "images/playground.png";
 var ellenSpriteSheet = new Image();
-ellenSpriteSheet.src = "ellen_spritesheet.png";
+ellenSpriteSheet.src = "images/ellen_spritesheet.png";
 var barneySpriteSheet = new Image();
-barneySpriteSheet.src = "barney_spritesheet.png";
+barneySpriteSheet.src = "images/barney_spritesheet.png";
 var mochiSpriteSheet = new Image();
-mochiSpriteSheet.src = "mochi_spritesheet.png";
+mochiSpriteSheet.src = "images/mochi_spritesheet.png";
 var ballImage = new Image();
-ballImage.src = "tennis_ball_tiny.png";
+ballImage.src = "images/tennis_ball_tiny.png";
 var facingRight = true; // initially Ellen is facing right
 ballTossed = false;
 var afterToss;
