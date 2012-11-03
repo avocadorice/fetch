@@ -23,6 +23,7 @@ bezierY = 200;
 var ellenThrowing;
 // this line was added on github web interface.
 // so was this line...
+// this line added locally.
 
 function onLoad() {
     //sound
