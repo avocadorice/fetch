@@ -1,0 +1,170 @@
+body {
+    margin: 0px;
+    padding: 0px;
+}
+canvas {
+    border: 4px solid #F778A1;
+    width: 600px;
+    height: 440px;
+}
+
+/* Styling Progress Bar Using CSS3 
+ * See also: http://css-tricks.com/css3-progress-bars/
+ */
+.power {
+    width: 300px;
+	height: 20px;  /* Can be anything */
+	left:12px;
+	top:462px;
+	position: absolute;
+	background: #555;
+	-moz-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	border-radius: 25px;
+	padding: 10px;
+	-webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
+	-moz-box-shadow   : inset 0 -1px 1px rgba(255,255,255,0.3);
+	box-shadow        : inset 0 -1px 1px rgba(255,255,255,0.3);
+}
+
+.power > span {
+	display: block;
+	height: 100%;
+	   -webkit-border-top-right-radius: 8px;
+	-webkit-border-bottom-right-radius: 8px;
+	       -moz-border-radius-topright: 8px;
+	    -moz-border-radius-bottomright: 8px;
+	           border-top-right-radius: 8px;
+	        border-bottom-right-radius: 8px;
+	    -webkit-border-top-left-radius: 20px;
+	 -webkit-border-bottom-left-radius: 20px;
+	        -moz-border-radius-topleft: 20px;
+	     -moz-border-radius-bottomleft: 20px;
+	            border-top-left-radius: 20px;
+	         border-bottom-left-radius: 20px;
+	background-color: rgb(43,194,83);
+	background-image: -webkit-gradient(
+	  linear,
+	  left bottom,
+	  left top,
+	  color-stop(0, rgb(43,194,83)),
+	  color-stop(1, rgb(84,240,84))
+	 );
+	background-image: -webkit-linear-gradient(
+	  center bottom,
+	  rgb(43,194,83) 37%,
+	  rgb(84,240,84) 69%
+	 );
+	background-image: -moz-linear-gradient(
+	  center bottom,
+	  rgb(43,194,83) 37%,
+	  rgb(84,240,84) 69%
+	 );
+	background-image: -ms-linear-gradient(
+	  center bottom,
+	  rgb(43,194,83) 37%,
+	  rgb(84,240,84) 69%
+	 );
+	background-image: -o-linear-gradient(
+	  center bottom,
+	  rgb(43,194,83) 37%,
+	  rgb(84,240,84) 69%
+	 );
+	-webkit-box-shadow: 
+	  inset 0 2px 9px  rgba(255,255,255,0.3),
+	  inset 0 -2px 6px rgba(0,0,0,0.4);
+	-moz-box-shadow: 
+	  inset 0 2px 9px  rgba(255,255,255,0.3),
+	  inset 0 -2px 6px rgba(0,0,0,0.4);
+	position: relative;
+	overflow: hidden;
+}
+
+/*
+    http://www.sitepoint.com/pure-css3-speech-bubbles/
+*/
+p[class$=Left] {
+	position: absolute;
+	left:280px;
+	top:10px;
+	width: 150px;
+	height: 100px;
+	text-align: center;
+	color: #F778A1;
+	line-height: 100px;
+	background-color: #fff;
+	border: 4px solid #F778A1;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	-webkit-box-shadow: 2px 2px 4px #888;
+	-moz-box-shadow: 2px 2px 4px #888;
+	box-shadow: 2px 2px 4px #888;
+}
+
+p[class$=Left]:before
+{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: 30px;
+	top: 100px;
+	border: 25px solid;
+	border-color: #F778A1 transparent transparent #F778A1;
+}
+
+p[class$=Left]:after
+{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: 33px;
+	top: 100px;
+	border: 20px solid;
+	border-color: #FFF transparent transparent #FFF;
+}
+
+p[class$=Right] {
+	position: absolute;
+	left:155px;
+	top:10px;
+	width: 150px;
+	height: 100px;
+	text-align: center;
+	color: #F778A1;
+	line-height: 100px;
+	background-color: #fff;
+	border: 4px solid #F778A1;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	-webkit-box-shadow: 2px 2px 4px #888;
+	-moz-box-shadow: 2px 2px 4px #888;
+	box-shadow: 2px 2px 4px #888;
+}
+
+p[class$=Right]:before
+{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: 70px;
+	top: 100px;
+	border: 25px solid;
+	border-color: #F778A1 #F778A1 transparent  transparent ;
+}
+
+p[class$=Right]:after
+{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: 76px;
+	top: 100px;
+	border: 20px solid;
+	border-color: #FFF #FFF transparent  transparent;
+}
