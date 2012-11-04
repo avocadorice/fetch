@@ -1,5 +1,7 @@
 var playgroundImage = new Image();
 playgroundImage.src = "images/playground.png";
+var treeImage = new Image(); 
+treeImage.src = "images/tree.png";
 var ellenSpriteSheet = new Image();
 ellenSpriteSheet.src = "images/ellen_spritesheet.png";
 var barneySpriteSheet = new Image();
@@ -8,7 +10,6 @@ var mochiSpriteSheet = new Image();
 mochiSpriteSheet.src = "images/mochi_spritesheet.png";
 var ballImage = new Image();
 ballImage.src = "images/tennis_ball_tiny.png";
-var facingRight = true; // initially Ellen is facing right
 ballTossed = false;
 var afterToss;
 var mochiIsRunning = false, barneyIsRunning = false;
@@ -32,6 +33,7 @@ function onLoad() {
         formats: [ "wav" ]
     });
     bmg.setSpeed(0.8);
+    bmg.setVolume(80);
     //bmg.play().loop();        
 
     var stage = new Kinetic.Stage({
@@ -48,6 +50,17 @@ function onLoad() {
         y: 0
     });
     
+    var tree = new Kinetic.Path({
+      x: 37,
+      y: 134,
+      data: "m 12.67732,86.189099 0.316933,13.945051 8.240257,15.21278 11.092655,9.82493 13.311185,5.38786 8.557191,2.53546 -6.021727,42.46902 -3.803196,35.4965 0.316933,21.86837 23.769974,-0.31693 13.945052,8.24026 10.775722,-5.38786 -0.633866,-52.92781 -2.535464,-1.9016 -1.267732,-51.02621 1.901598,-8.24026 7.923324,0.31693 2.535461,3.8032 16.48052,-0.63387 3.16933,-2.53546 6.02173,-0.9508 9.50798,-5.07093 11.09266,-11.40959 6.65559,-19.966773 2.8524,-0.633866 1.26773,-11.726521 -1.9016,-10.775721 -2.21853,-4.120129 0.31694,-5.387861 -6.6556,-11.092655 -11.40959,-10.775721 -3.48626,-0.316933 -11.40959,-6.021727 -12.99425,-0.950799 0,-3.486263 L 97.932293,7.5897175 80.184046,0.30025882 l -19.332912,0 -7.289459,3.80319588 -9.50799,5.0709278 -4.120128,5.0709275 -18.065181,6.33866 -9.507989,7.923325 -9.5079901,14.261984 -1.90159794,12.994253 0,13.311185 6.65559274,11.409588 z",
+      fill: {
+        image: treeImage,
+        offset: [0, 0]
+      }
+    });
+
+    
     playground.on("mousemove", function() {
         if($('.speech1Left').is(":visible")  || $('.speech2Left').is(":visible") ||
            $('.speech1Right').is(":visible") ||$('.speech2Right').is(":visible")) return;
@@ -58,6 +71,7 @@ function onLoad() {
     });
     
     playground.on("click", function() {
+        console.log(stage.getMousePosition().x + "," + stage.getMousePosition().y);
         if(mochiIsRunning || barneyIsRunning || ballTossed || afterToss) return;
         if(ellen.getAnimation() != 'idleWithBall') return;
         
@@ -66,7 +80,7 @@ function onLoad() {
         if(pix[2] != 0) return;
         
         // ellen throws the ball
-        setTimeout(function() { ellen.swoosh.play(); }, 300);
+        setTimeout(function() { ellen.swoosh.play(); }, 400);
         ellenThrowing = true;
         ellen.setAnimation('throwing');
         ellen.afterFrame(1, function() {
@@ -407,20 +421,20 @@ function onLoad() {
         var y = mousePos.y;
 
         if(x < playgroundImage.width/2) {
-            if(!facingRight) return; // already facing left, no need to re-draw
+            if(ellen.curFacing == 'l') return; // already facing left, no need to re-draw
             
-            facingRight = false; // she should now face left
+            ellen.curFacing = 'l'; // face left
             ellen.setScale(-Math.abs(ellen.getScale().x), ellen.getScale().y);
             ellen.setX(playgroundImage.width / 2 + ellenAnim[ellen.getAnimation()][0].width / 2 - 10);
         }
         else if(x >= playgroundImage.width/2) {
-            if(facingRight) return; // already facing right, no need to re-draw
+            if(ellen.curFacing == 'r') return; // already facing right, no need to re-draw
             
-            facingRight = true;   
+            ellen.curFacing = 'r'; // face right
             ellen.setScale(Math.abs(ellen.getScale().x), ellen.getScale().y);
             ellen.setX(playgroundImage.width / 2 - ellenAnim[ellen.getAnimation()][0].width / 2);
         }
-        reorderSprites([ellen, barney, mochi, ball]);
+        //reorderSprites([ellen, barney, mochi, ball]);
     }
     
     ellen.swoosh = new buzz.sound("sound/swoosh", {
@@ -541,7 +555,7 @@ function onLoad() {
                             $('.speech1Left').hide(); 
                             ellen.setAnimation('idleWithBall');
                             ellen.setX(ellen.getX() - 20);
-                            ellen.adjustFacing(); 
+                            ellen.adjustFacing();
                         }, 3000);
                     }
                     else {
@@ -746,11 +760,11 @@ function onLoad() {
 
     mochi.face = function(dir) {
         if(dir == 'r' && mochi.curFacing != 'r') {
-            mochi.setScale(1, barney.getScale().y);
+            mochi.setScale(1, mochi.getScale().y);
             mochi.setX(mochi.getX() - mochiAnim['idle'][0].width);
         }
         else if(dir == 'l' && mochi.curFacing != 'l') {
-            mochi.setScale(-1, barney.getScale().y);
+            mochi.setScale(-1, mochi.getScale().y);
             mochi.setX(mochi.getX() + mochiAnim['idle'][0].width);            
         }
         mochi.curFacing = dir;
@@ -766,6 +780,19 @@ function onLoad() {
     mochi.runThruGrass = new buzz.sound("sound/mochi_running_through_grass", {
         formats: [ "wav" ]
     });
+    
+    ellen.curFacing = 'r';
+    ellen.face = function(dir) {
+        if(dir == 'r' && ellen.curFacing != 'r') {
+            ellen.setScale(1, ellen.getScale().y);
+            ellen.setX(ellen.getX() - ellenAnim['idle'][0].width);
+        }
+        else if(dir == 'l' && ellen.curFacing != 'l') {
+            ellen.setScale(-1, ellen.getScale().y);
+            ellen.setX(ellen.getX() + ellenAnim['idle'][0].width);            
+        }
+        ellen.curFacing = dir;
+    }
     
     $(".speech1Left").hide();
     $(".speech2Left").hide();
@@ -798,21 +825,39 @@ function onLoad() {
     mochi.adjustScale = barney.adjustScale = ball.adjustScale = ellen.adjustScale = adjustScale;
     
     reorderSprites = function(sprites) {
-        for(var i = 0; i < sprites.length; ++i)
-            layer.remove(sprites[i]);
-    
+        layer.remove(tree);
+        layer.remove(mochi);
+        layer.remove(barney);    
+        if(mochi.getY() - 70 > barney.getY()) {
+            layer.add(barney);
+            layer.add(mochi);
+
+        }
+        else {
+            layer.add(mochi);
+            layer.add(barney);
+            
+        }
+        
+        layer.add(tree);
+        if(mochi.getY() > 370 - 60) {
+            tree.moveDown();
+        }
+        if(barney.getY() > 300 - 60) {
+            tree.moveDown();
+        }
+
+        
+//         for(var i = 0; i < sprites.length; ++i)
+//             layer.remove(sprites[i]);
         // ascending order
-        sprites.sort(function(s1, s2) {
- //            if(s1 == mochi && s2 == barney)
-//                 return (s1.getY() + 20) - s2.getY();
-//             else if(s2 == mochi && s1 == barney)
-//                 return (s2.getY() + 20) - s1.getY();
+//         sprites.sort(function(s1, s2) {
 
-            return s1.getY() - s2.getY();
-        });
+ //            return s1.getY() - s2.getY();
+//         });
 
-        for(var i = 0; i < sprites.length; ++i)
-            layer.add(sprites[i]);    
+//         for(var i = 0; i < sprites.length; ++i)
+//             layer.add(sprites[i]);    
     }
     
     ball.adjustScale();
@@ -822,6 +867,7 @@ function onLoad() {
     reorderSprites([ball, mochi, barney, ellen]);
     
     anim.start();
+    layer.add(tree);
 }
 
 window.addEventListener("load", onLoad, false);

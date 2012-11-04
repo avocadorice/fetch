@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+      canvas {
+        border: 1px solid #9C9898;
+      }
+    </style>
+    <script src="http://www.html5canvastutorials.com/libraries/kinetic-v4.0.0.js"></script>
+    <script>
+      window.onload = function() {
+        var stage = new Kinetic.Stage({
+          container: "container",
+          width: 578,
+          height: 200
+        });
+        var layer = new Kinetic.Layer();
+
+        var path = new Kinetic.Path({
+          x: 240,
+          y: 40,
+          data: "M200,300 L400,50 L600,300 L800,550 L1000,300",
+          fill: "green",
+          scale: 2
+        });
+
+        // add the shape to the layer
+        layer.add(path);
+
+        // add the layer to the stage
+        stage.add(layer);
+        
+        var x = Kinetic.Path.parsePathData("images/tree.svg");
+        console.log(x);
+      };
+
+    </script>
+  </head>
+  <body>
+    <div id="container"></div>
+  </body>
+</html>
