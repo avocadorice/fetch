@@ -22,20 +22,25 @@ var v_mochi = {x:130, y:130}, v_barney = {x:100, y:100};
 bezierX = 150;  
 bezierY = 200;
 var ellenThrowing;
-// this line was added on github web interface.
-// so was this line...
-// this line added locally.
-//
+var bmg = new buzz.sound( "sound/birds_chirp3", {
+    formats: [ "wav" ],
+    preload: true,
+    autoplay: true,
+    loop: true, 
+    volume: 80
+});
+
+var siHandle = setInterval(() => {
+    var playPromise = bmg.sound.play()
+        .then(() => {
+            clearInterval(siHandle)
+        })
+        .catch(() => {
+
+        });
+}, 1000)
 
 function onLoad() {
-    //sound
-    var bmg = new buzz.sound( "sound/birds_chirp3", {
-        formats: [ "wav" ]
-    });
-    bmg.setSpeed(0.8);
-    bmg.setVolume(80);
-    //bmg.play().loop();        
-
     var stage = new Kinetic.Stage({
       container: "container",
       width: 600,
@@ -61,7 +66,7 @@ function onLoad() {
     });
 
     
-    playground.on("mousemove", function() {
+    playground.on("mousemove", function() {        
         if($('.speech1Left').is(":visible")  || $('.speech2Left').is(":visible") ||
            $('.speech1Right').is(":visible") ||$('.speech2Right').is(":visible")) return;
         if(ellen.getAnimation() != 'idleWithBall') return;
@@ -71,7 +76,7 @@ function onLoad() {
     });
     
     playground.on("click", function() {
-        console.log(stage.getMousePosition().x + "," + stage.getMousePosition().y);
+        // console.log(stage.getMousePosition().x + "," + stage.getMousePosition().y);
         if(mochiIsRunning || barneyIsRunning || ballTossed || afterToss) return;
         if(ellen.getAnimation() != 'idleWithBall') return;
         
@@ -454,7 +459,6 @@ function onLoad() {
     }
     
     var start = getRandomPosition();
-    console.log(start);
     var barney = new Kinetic.Sprite({
         x: start[0],
         y: start[1] - barneyAnim['idle'][0].height,
@@ -465,7 +469,6 @@ function onLoad() {
     });     
     
     var start = getRandomPosition();
-    console.log(start);        
     var mochi = new Kinetic.Sprite({
         x: start[0],
         y: start[1] - mochiAnim['idle'][0].height,
@@ -571,7 +574,6 @@ function onLoad() {
                 }
             }
             else {
-                
                 posX = (barneyStartPosX > barneyEndPosX) 
                     ? barneyStartPosX - (t_barney.currentElapsed / t_barney.total) * (barneyStartPosX - barneyEndPosX) 
                     : barneyStartPosX + (t_barney.currentElapsed / t_barney.total) * (barneyEndPosX - barneyStartPosX);
@@ -748,7 +750,7 @@ function onLoad() {
     }
     barney.getCenterX = function() {
         var centerX = barney.curFacing == 'r' ? barney.getX() + barneyAnim['idle'][0].width / 2 : barney.getX() - barneyAnim['idle'][0].width / 2;
-        console.log(centerX + "," + barney.getX());
+        // console.log(centerX + "," + barney.getX());
         return centerX;
     }
     barney.getCenterY = function() { return barney.getY() + barneyAnim['idle'][0].height / 2; }
@@ -771,7 +773,7 @@ function onLoad() {
     }
     mochi.getCenterX = function() {
         var centerX = mochi.curFacing == 'r' ? mochi.getX() + mochiAnim['idle'][0].width / 2 : mochi.getX() - mochiAnim['idle'][0].width / 2;
-        console.log(centerX + "," + mochi.getX());
+        // console.log(centerX + "," + mochi.getX());
         return centerX;
     }
     mochi.getCenterY = function() { return mochi.getY() + mochiAnim['idle'][0].height / 2; }
@@ -846,18 +848,6 @@ function onLoad() {
         if(barney.getY() > 300 - 60) {
             tree.moveDown();
         }
-
-        
-//         for(var i = 0; i < sprites.length; ++i)
-//             layer.remove(sprites[i]);
-        // ascending order
-//         sprites.sort(function(s1, s2) {
-
- //            return s1.getY() - s2.getY();
-//         });
-
-//         for(var i = 0; i < sprites.length; ++i)
-//             layer.add(sprites[i]);    
     }
     
     ball.adjustScale();
